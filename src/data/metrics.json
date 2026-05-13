@@ -5436,7 +5436,7 @@
       "name": "Onchain Control",
       "tags": ["Metric 1"],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
-      "summary": "Core products OUSG/USDY (~$3.5B TVL) are controlled by team multisigs. ONDO governance does control Flux Finance but it's only 1.2% of total TVL, hence insignificant. The ONDO token contract has team-held admin and minting roles. Supply is 10B with active mint capability.",
+      "summary": "Core Ondo products are controlled by team multisigs. ONDO governance controls Flux Finance, but Flux appears small relative to Ondo's other product TVL. The ONDO token contract has team-held admin and minting roles. Supply is 10B with active mint capability.",
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -5801,59 +5801,38 @@
       "name": "Value Accrual",
       "tags": ["Metric 2"],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
-      "summary": "No active value accrual for ONDO tokenholders. USDY/OUSG yield (~$3-4M monthly) accrues to product holders, not ONDO holders. All value accrual mechanisms are company-controlled: OUSG/USDY oracles by SETTER_ROLE, Global Markets by TimelockController. No DAO treasury identified.",
+      "summary": "No active value accrual mechanism was identified for ONDO holders. Ondo has multiple products with documented product-level economics, including yield, fees, expenses, and spreads, but no identified flow from those economics to ONDO holders or an ONDO-controlled treasury. Flux is ONDO-governed but small relative to Ondo's other product TVL, so it does not materially change the assessment.",
       "criteria": [
         {
           "id": "val-accrual__active",
           "name": "Accrual Active",
           "about": "Assesses whether value flows to tokenholders are currently active rather than merely theoretical or proposed.",
           "status": "at_risk",
-          "notes": "No active value accrual mechanism for ONDO tokenholders. USDY/OUSG yield accrues to product holders, not ONDO holders. No fee distribution, staking rewards, or buyback program exists.",
+          "notes": "No active value accrual mechanism for ONDO tokenholders was identified. Ondo products have documented product-level economics, but Aragon did not identify a fee distributor, staking reward, buyback program, DAO treasury, or other mechanism routing product economics to ONDO holders.",
           "evidence": [
             {
-              "name": "USDY/OUSG Revenue Clarification",
-              "summary": "The ~$3-4M monthly \"fees\" on DefiLlama is yield to USDY/OUSG product holders, not ONDO tokenholders.\n\n1. USDY/OUSG are backed by short-term US Treasuries.\n\n2. Oracle updates NAV/price daily to reflect yield.\n\n3. USDY/OUSG holders receive yield through increasing token price.\n\n4. ONDO tokenholders receive ZERO from this yield.",
+              "name": "Product Economics vs ONDO Holder Accrual",
+              "summary": "Ondo has products with documented product-level economics, including yield, fees, expenses, and spreads. Those mechanics do not identify an ONDO-holder accrual mechanism.",
               "urls": [
                 {
-                  "name": "DefiLlama Ondo Finance",
-                  "url": "https://defillama.com/protocol/ondo-finance",
+                  "name": "OUSG Fees",
+                  "url": "https://docs.ondo.finance/qualified-access-products/ousg/fees-and-taxes",
                   "type": "docs"
                 },
                 {
-                  "name": "OUSG Oracle",
-                  "url": "https://etherscan.io/address/0x0502c5ae08E7CD64fe1AEDA7D6e229413eCC6abe",
-                  "type": "explorer"
+                  "name": "OUSG Yield",
+                  "url": "https://docs.ondo.finance/qualified-access-products/ousg/yield",
+                  "type": "docs"
                 },
                 {
-                  "name": "USDY Oracle",
-                  "url": "https://etherscan.io/address/0xA0219AA5B31e65Bc920B5b6DFb8EdF0988121De0",
-                  "type": "explorer"
+                  "name": "USDY Product Economics",
+                  "url": "https://docs.ondo.finance/general-access-products/usdy/comparison-stablecoins",
+                  "type": "docs"
                 },
                 {
-                  "name": "RWAOracleRateCheck.sol (price update)",
-                  "url": "https://github.com/ondoprotocol/usdy/blob/main/contracts/rwaOracles/RWAOracleRateCheck.sol",
-                  "type": "github"
-                }
-              ]
-            },
-            {
-              "name": "No Value Flow to ONDO Holders",
-              "summary": "There is no onchain mechanism directing any revenue to ONDO tokenholders. No fee distribution contract. No staking rewards. No buyback program. All USDY/OUSG/Global Markets revenue accrues to Ondo Finance Inc. or to product holders.",
-              "urls": [
-                {
-                  "name": "OUSG",
-                  "url": "https://etherscan.io/address/0x1B19C19393e2d034D8Ff31ff34c81252FcBbee92",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDY",
-                  "url": "https://etherscan.io/address/0x96F6eF951840721AdBF46Ac996b59E0235CB985C",
-                  "type": "explorer"
-                },
-                {
-                  "name": "GMTokenManager",
-                  "url": "https://etherscan.io/address/0x2c158BC456e027b2AfFCCadF1BDBD9f5fC4c5C8c",
-                  "type": "explorer"
+                  "name": "Global Markets Fees",
+                  "url": "https://docs.ondo.finance/ondo-global-markets/fees-and-taxes",
+                  "type": "docs"
                 }
               ]
             }
@@ -5868,7 +5847,7 @@
           "evidence": [
             {
               "name": "No Treasury Identified",
-              "summary": "No DAO treasury contract identified. No fee distribution mechanism exists for OUSG/USDY/Global Markets revenue. No governance proposals for treasury creation found on Tally.",
+              "summary": "No DAO treasury contract identified. No fee distribution mechanism was identified for Ondo product economics. No governance proposals for treasury creation were identified.",
               "urls": [
                 {
                   "name": "Ondo DAO Proposals",
@@ -5884,11 +5863,11 @@
           "name": "Accrual Mechanism Control",
           "about": "Evaluates whether tokenholders can modify parameters governing value capture, such as fees or revenue routing.",
           "status": "at_risk",
-          "notes": "ONDO holders have no control over revenue parameters for Ondo's core products. OUSG/USDY oracle price updates (which determine yield distribution) are controlled by company-held SETTER_ROLE. Global Markets fees are controlled by TimelockController owned by company multisigs.",
+          "notes": "ONDO holders have no identified control over revenue routing for Ondo's core products. Core product parameters are controlled by company-held roles and multisigs. Flux is ONDO-governed but represents a small share of Ondo TVL.",
           "evidence": [
             {
               "name": "OUSG/USDY Price Oracles (Company-Controlled)",
-              "summary": "The price oracles that determine OUSG/USDY NAV (and thus yield distribution) are controlled by company-held SETTER_ROLE:\n\n1. OUSG Oracle: `setPrice()` restricted to SETTER_ROLE holders.\n\n2. USDY Oracle: Same SETTER_ROLE restriction.\n\nONDO tokenholders cannot change fee rates, yield spreads, or distribution parameters.",
+              "summary": "The price oracles that determine OUSG/USDY NAV are controlled by SETTER_ROLE-restricted `setPrice()` functions. ONDO tokenholders cannot control these oracle price-update roles.",
               "urls": [
                 {
                   "name": "OUSG Oracle",
@@ -5896,33 +5875,8 @@
                   "type": "explorer"
                 },
                 {
-                  "name": "OUSG Oracle SETTER_ROLE holder #1",
-                  "url": "https://etherscan.io/address/0x118919e891D0205A7492650AD32E727617FA9452",
-                  "type": "explorer"
-                },
-                {
-                  "name": "OUSG Oracle SETTER_ROLE holder #2",
-                  "url": "https://etherscan.io/address/0x682d3d7cB33A9089C19b9B135a5DB3d2C5CF20C4",
-                  "type": "explorer"
-                },
-                {
-                  "name": "OUSG Oracle SETTER_ROLE holder #3",
-                  "url": "https://etherscan.io/address/0xeAEf4335c7Db4Cd1D1cc3368Fa43721E2798BeFE",
-                  "type": "explorer"
-                },
-                {
                   "name": "USDY Oracle",
                   "url": "https://etherscan.io/address/0xA0219AA5B31e65Bc920B5b6DFb8EdF0988121De0",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDY Oracle SETTER_ROLE holder #1",
-                  "url": "https://etherscan.io/address/0x1a694A09494E214a3Be3652e4B343B7B81A73ad7",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDY Oracle SETTER_ROLE holder #2",
-                  "url": "https://etherscan.io/address/0x19c114B7c6Ff86482cEbFc6AE3cef894e6793Db8",
                   "type": "explorer"
                 },
                 {
@@ -5939,7 +5893,7 @@
             },
             {
               "name": "Global Markets (Company-Controlled via TimelockController)",
-              "summary": "GMTokenManager admin is TimelockController (2-hour delay). TimelockController is controlled by 5-of-9 multisig. ONDO tokenholders have no control over Global Markets fee parameters.",
+              "summary": "GMTokenManager admin is TimelockController (2-hour delay). ONDO tokenholders have no control over Global Markets fee parameters.",
               "urls": [
                 {
                   "name": "GMTokenManager",
@@ -5949,11 +5903,6 @@
                 {
                   "name": "Global Markets TimelockController",
                   "url": "https://etherscan.io/address/0x3715B2154d2FF4C5B027C7a1f734B53F27bc34f1",
-                  "type": "explorer"
-                },
-                {
-                  "name": "TimelockController DEFAULT_ADMIN_ROLE holder (5-of-9 multisig)",
-                  "url": "https://etherscan.io/address/0xcD35671dCAb88d05EE29dC4D360181529390B17f",
                   "type": "explorer"
                 }
               ]
@@ -5968,77 +5917,47 @@
           ],
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "warning",
-          "notes": "Significant value accrues to Ondo Finance Inc. offchain through USDY/OUSG/Global Markets operations. This value does not flow to ONDO tokenholders.",
+          "notes": "Ondo product economics may accrue through product-holder yield, issuer/operator fees, spreads, expenses, or service revenue, but no documented offchain value-accrual flow to ONDO holders was identified.",
           "evidence": [
             {
-              "name": "USDY/OUSG Revenue Model",
-              "summary": "USDY: Backed by short-term US Treasuries in bankruptcy-remote SPV. Yield passed to holders via daily NAV updates.\n\nOUSG: Backed by BlackRock's SHV ETF. NAV updated via oracle.\n\nOracle price updates controlled by SETTER_ROLE (company-controlled). No onchain mechanism guarantees 100% yield pass-through.",
+              "name": "Ondo Product Economics",
+              "summary": "Ondo products have documented product-level economics, including yield, fees, expenses, and spreads. These mechanics describe product economics, not ONDO-holder accrual. No onchain mechanism guarantees that residual issuer/operator economics flow to ONDO holders.",
               "urls": [
                 {
-                  "name": "OUSG Oracle",
-                  "url": "https://etherscan.io/address/0x0502c5ae08E7CD64fe1AEDA7D6e229413eCC6abe",
-                  "type": "explorer"
+                  "name": "OUSG Fees",
+                  "url": "https://docs.ondo.finance/qualified-access-products/ousg/fees-and-taxes",
+                  "type": "docs"
                 },
                 {
-                  "name": "OUSG Oracle SETTER_ROLE holder #1",
-                  "url": "https://etherscan.io/address/0x118919e891D0205A7492650AD32E727617FA9452",
-                  "type": "explorer"
+                  "name": "OUSG Yield",
+                  "url": "https://docs.ondo.finance/qualified-access-products/ousg/yield",
+                  "type": "docs"
                 },
                 {
-                  "name": "OUSG Oracle SETTER_ROLE holder #2",
-                  "url": "https://etherscan.io/address/0x682d3d7cB33A9089C19b9B135a5DB3d2C5CF20C4",
-                  "type": "explorer"
+                  "name": "USDY Product Economics",
+                  "url": "https://docs.ondo.finance/general-access-products/usdy/comparison-stablecoins",
+                  "type": "docs"
                 },
                 {
-                  "name": "OUSG Oracle SETTER_ROLE holder #3",
-                  "url": "https://etherscan.io/address/0xeAEf4335c7Db4Cd1D1cc3368Fa43721E2798BeFE",
-                  "type": "explorer"
+                  "name": "USDY Issuer / Ondo Finance Relationship",
+                  "url": "https://docs.ondo.finance/general-access-products/usdy/important-notes",
+                  "type": "docs"
                 },
                 {
-                  "name": "USDY Oracle",
-                  "url": "https://etherscan.io/address/0xA0219AA5B31e65Bc920B5b6DFb8EdF0988121De0",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDY Oracle SETTER_ROLE holder #1",
-                  "url": "https://etherscan.io/address/0x1a694A09494E214a3Be3652e4B343B7B81A73ad7",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDY Oracle SETTER_ROLE holder #2",
-                  "url": "https://etherscan.io/address/0x19c114B7c6Ff86482cEbFc6AE3cef894e6793Db8",
-                  "type": "explorer"
-                },
-                {
-                  "name": "RWAOracleRateCheck.sol (setPrice rate limit)",
-                  "url": "https://github.com/ondoprotocol/usdy/blob/main/contracts/rwaOracles/RWAOracleRateCheck.sol#L81-L90",
-                  "type": "github"
-                },
-                {
-                  "name": "DefiLlama Ondo Finance",
-                  "url": "https://defillama.com/protocol/ondo-finance",
+                  "name": "Global Markets Fees",
+                  "url": "https://docs.ondo.finance/ondo-global-markets/fees-and-taxes",
                   "type": "docs"
                 }
               ]
             },
             {
               "name": "Global Markets Revenue",
-              "summary": "Tokenized stocks with \"on\" suffix (TSLAon, COINon). Controlled by TimelockController (owned by 5-of-9 multisig). Fees and spreads accrue to company, not to ONDO tokenholders.",
+              "summary": "Global Markets documentation describes fees and quote spreads retained by Ondo Global Markets. Aragon did not identify a mechanism routing those fees or spreads to ONDO holders or an ONDO-controlled treasury.",
               "urls": [
                 {
-                  "name": "GMTokenManager",
-                  "url": "https://etherscan.io/address/0x2c158BC456e027b2AfFCCadF1BDBD9f5fC4c5C8c",
-                  "type": "explorer"
-                },
-                {
-                  "name": "USDon",
-                  "url": "https://etherscan.io/address/0xAcE8E719899F6E91831B18AE746C9A965c2119F1",
-                  "type": "explorer"
-                },
-                {
-                  "name": "Global Markets TimelockController",
-                  "url": "https://etherscan.io/address/0x3715B2154d2FF4C5B027C7a1f734B53F27bc34f1",
-                  "type": "explorer"
+                  "name": "Global Markets Fees",
+                  "url": "https://docs.ondo.finance/ondo-global-markets/fees-and-taxes",
+                  "type": "docs"
                 }
               ]
             }
@@ -6198,33 +6117,42 @@
         "Reference"
       ],
       "about": "Economically material assets and obligations often sit offchain, outside the custody and direct enforcement of a token, while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
-      "summary": "Aragon has not been able to verify trademark ownership for Ondo. Primary distribution channels are controlled by Ondo Finance Inc. OUSG/USDY access requires company-controlled KYC. Code is BUSL-1.1 licensed.",
+      "summary": "Ondo Finance Inc. operates the primary website, documentation, APIs, dashboards, and technical interfaces under its Terms of Service. The Terms preserve Ondo-related trademark/IP rights and separate interface services from product issuance or economic terms. Certain product source files use BUSL-1.1 SPDX headers, but no tokenholder-controlled licensing right was identified.",
       "criteria": [
         {
           "id": "offchain__trademark",
           "name": "Trademark",
           "about": "Are core trademarks and brand assets owned or controlled by a tokenholder-controlled legal entity?",
-          "status": "unevaluated",
-          "notes": "Aragon has not been able to verify USPTO registration for \"Ondo\" or \"Ondo Finance\" trademark.",
-          "evidence": []
+          "status": "warning",
+          "notes": "Ondo's Terms of Service state that Ondo names, logos, and marks used on the site or services are owned by Ondo, its affiliates, Covered Entities, or applicable licensors. Aragon has not verified that these trademark rights are owned or controlled by a tokenholder-controlled legal entity.",
+          "evidence": [
+            {
+              "name": "Ondo Terms of Service - Proprietary Rights",
+              "summary": "The Terms reserve Ondo names, logos, and marks to Ondo, its affiliates, Covered Entities, or applicable licensors, and do not grant users rights in those trademarks.",
+              "urls": [
+                {
+                  "name": "Terms of Service",
+                  "url": "https://docs.ondo.finance/legal/terms-of-service",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
         },
         {
           "id": "offchain__distribution",
           "name": "Distribution",
           "about": "Are primary domains and distribution assets owned or controlled by a tokenholder-controlled legal entity?",
           "status": "warning",
-          "notes": "Ondo Finance Inc. controls primary distribution channels. ondo.finance is operated by the company. OUSG/USDY access requires KYC approval controlled by company. No DAO control over frontend access.",
+          "notes": "Ondo Finance Inc. controls the primary website, documentation, APIs, dashboards, and technical interfaces. The Terms of Service identify Ondo Finance Inc. as the contracting party for those interface services, while product issuance and economic terms are governed separately by Covered Entity terms. No DAO control over primary interface access was identified.",
           "evidence": [
             {
+              "name": "Ondo Terms of Service - Interface Services",
+              "summary": "Ondo Finance Inc. operates the site and interface services. The Terms also state that Covered Entities are separate legal entities providing their own services under their own terms.",
               "urls": [
                 {
-                  "name": "Ondo Finance",
-                  "url": "https://ondo.finance/",
-                  "type": "docs"
-                },
-                {
-                  "name": "Ondo Documentation",
-                  "url": "https://docs.ondo.finance/",
+                  "name": "Terms of Service",
+                  "url": "https://docs.ondo.finance/legal/terms-of-service",
                   "type": "docs"
                 }
               ]
@@ -6236,19 +6164,26 @@
           "name": "Licensing",
           "about": "Is core protocol software/IP (and any associated licensing rights, where applicable) owned or controlled by a tokenholder-controlled legal entity?",
           "status": "unevaluated",
-          "notes": "OUSG/USDY code is BUSL-1.1 licensed. This is a restrictive license that limits commercial use. Aragon has not verified if license holder is tokenholder-controlled.",
+          "notes": "Certain USDY/rOUSG source files use SPDX-License-Identifier: BUSL-1.1. BUSL-1.1 is not an open-source license and restricts production/commercial use until the applicable change date or open-source conversion. Aragon has not identified a repo-level license file or verified that licensing rights are controlled by tokenholders.",
           "evidence": [
             {
+              "name": "BUSL-1.1 Source Headers",
+              "summary": "USDY and rOUSG source files include BUSL-1.1 SPDX headers. No repo-level license file or tokenholder-controlled license holder was identified.",
               "urls": [
                 {
-                  "name": "USDY License Header (BUSL-1.1)",
+                  "name": "USDY source SPDX header",
                   "url": "https://github.com/ondoprotocol/usdy/blob/main/contracts/usdy/USDY.sol#L1",
                   "type": "github"
                 },
                 {
-                  "name": "USDY GitHub",
-                  "url": "https://github.com/ondoprotocol/usdy",
+                  "name": "rOUSG source SPDX header",
+                  "url": "https://github.com/code-423n4/2024-03-ondo-finance/blob/main/contracts/ousg/rOUSG.sol#L1",
                   "type": "github"
+                },
+                {
+                  "name": "BUSL-1.1 license text",
+                  "url": "https://spdx.org/licenses/BUSL-1.1.html",
+                  "type": "docs"
                 }
               ]
             }
