@@ -312,7 +312,7 @@ function TokenDataTable({ data }: { data: EnrichedToken[] }) {
   const [networkFilter, setNetworkFilter] = useState<string>("")
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 15,
+    pageSize: 100,
   })
 
   const networks = useMemo(() => {
@@ -460,7 +460,7 @@ function TokenDataTable({ data }: { data: EnrichedToken[] }) {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {[5, 15, 50].map((pageSize) => (
+              {[50, 100, 200].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
