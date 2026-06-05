@@ -26,19 +26,6 @@ export function getTokenDoc(tokenId: string): TokenDoc | null {
   return tokenDocs.get(tokenId.trim().toLowerCase()) ?? null
 }
 
-export function normalizeCriteriaStatus(status?: string): CriteriaStatusValue {
-  if (
-    status === CRITERIA_STATUS.POSITIVE ||
-    status === CRITERIA_STATUS.WARNING ||
-    status === CRITERIA_STATUS.AT_RISK ||
-    status === CRITERIA_STATUS.UNEVALUATED ||
-    status === CRITERIA_STATUS.REFERENCE
-  ) {
-    return status
-  }
-  return CRITERIA_STATUS.REFERENCE
-}
-
 export function getCriteriaStatus(
   tokenId: string,
   criteriaId: string
@@ -47,7 +34,9 @@ export function getCriteriaStatus(
   if (!doc) return CRITERIA_STATUS.REFERENCE
   for (const m of doc.metrics) {
     for (const c of m.criteria) {
-      if (c.id === criteriaId) return normalizeCriteriaStatus(c.status)
+      // Statuses are schema-validated canonical values (ADR 0002) —
+      // no runtime normalization layer exists by design.
+      if (c.id === criteriaId) return c.status
     }
   }
   return CRITERIA_STATUS.REFERENCE

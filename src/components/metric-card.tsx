@@ -18,7 +18,7 @@ import type { Evidence, Metric } from "@/lib/metrics-data"
 import { getMetricScore, getScoreStatus } from "@/lib/scoring"
 import { cn } from "../lib/utils.ts"
 import { EvidenceCard, isFullEvidence } from "./evidence-card.tsx"
-import { type CriteriaStatus, mapStatus } from "./token-detail"
+import type { CriteriaStatus } from "./token-detail"
 import { BadgeEvaluation } from "./ui/badge-evaluation.tsx"
 import { TitlePopover } from "./ui/title-popover.tsx"
 
@@ -164,7 +164,10 @@ export default function MetricCard(props: MetricCardProps) {
               colors.summaryColor
             )}
           >
-            <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkBreaks]}>
+            <ReactMarkdown
+              components={markdownComponents}
+              remarkPlugins={[remarkBreaks]}
+            >
               {metric.summary}
             </ReactMarkdown>
           </p>
@@ -195,9 +198,7 @@ export default function MetricCard(props: MetricCardProps) {
                   variant="h4"
                 />
               </div>
-              {!score.reference && (
-                <StatusIcon status={mapStatus(criteria.status)} />
-              )}
+              {!score.reference && <StatusIcon status={criteria.status} />}
             </AccordionTrigger>
             <AccordionContent className="p-0 pb-4">
               <div className="flex flex-col gap-4">
@@ -210,7 +211,10 @@ export default function MetricCard(props: MetricCardProps) {
                         "prose pr-0 max-w-none md:pr-8"
                       )}
                     >
-                      <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkBreaks]}>
+                      <ReactMarkdown
+                        components={markdownComponents}
+                        remarkPlugins={[remarkBreaks]}
+                      >
                         {notes}
                       </ReactMarkdown>
                     </div>

@@ -6,7 +6,7 @@
  * absent and produced at composition time (scripts/compose-data.mjs).
  */
 import { z } from "zod"
-import { evidenceSchema, rawCriteriaStatusSchema } from "./common"
+import { criteriaStatusSchema, evidenceSchema } from "./common"
 
 /** content/tokens/<id>.json — registry atom: identity, display, chain data. */
 export const tokenAtomSchema = z.strictObject({
@@ -42,7 +42,7 @@ export const metricEditorialAtomSchema = z.strictObject({
 export const criterionEvaluationAtomSchema = z.strictObject({
   /** Display-name override; present only where it diverges from framework. */
   name: z.string().optional(),
-  status: rawCriteriaStatusSchema,
+  status: criteriaStatusSchema,
   notes: z.string(),
   tags: z.array(z.string()).optional(),
   evidence: z.array(evidenceSchema).optional(),

@@ -1,6 +1,10 @@
 import { z } from "zod"
 
-/** Canonical criteria workflow statuses. */
+/**
+ * Canonical criteria workflow statuses — the ONLY valid vocabulary.
+ * Non-canonical values are a validation failure by design (ADR 0002):
+ * there is no runtime mapping/normalization layer for dialect statuses.
+ */
 export const CRITERIA_STATUS = {
   POSITIVE: "positive",
   WARNING: "warning",
@@ -19,23 +23,6 @@ export const criteriaStatusSchema = z.enum([
   CRITERIA_STATUS.UNEVALUATED,
   CRITERIA_STATUS.REFERENCE,
 ])
-
-/**
- * Statuses as they actually appear in the data, including legacy values
- * ("fail", "partial") that normalize to "reference" at read time and are
- * excluded from scoring. Preserved as passthrough pending editorial cleanup.
- */
-export const rawCriteriaStatusSchema = z.enum([
-  CRITERIA_STATUS.POSITIVE,
-  CRITERIA_STATUS.WARNING,
-  CRITERIA_STATUS.AT_RISK,
-  CRITERIA_STATUS.UNEVALUATED,
-  CRITERIA_STATUS.REFERENCE,
-  "fail",
-  "partial",
-])
-
-export type RawCriteriaStatus = z.infer<typeof rawCriteriaStatusSchema>
 
 export const evidenceUrlSchema = z.strictObject({
   name: z.string(),

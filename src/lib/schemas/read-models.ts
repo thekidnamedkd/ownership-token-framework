@@ -7,14 +7,14 @@
  */
 import { z } from "zod"
 import { tokenAtomSchema } from "./atoms"
-import { evidenceSchema, rawCriteriaStatusSchema } from "./common"
+import { criteriaStatusSchema, evidenceSchema } from "./common"
 
-/** A criterion as rendered: framework `about` merged, raw status preserved. */
+/** A criterion as rendered: framework `about` merged, canonical status. */
 export const composedCriterionSchema = z.strictObject({
   id: z.string(),
   name: z.string(),
   about: z.string(),
-  status: rawCriteriaStatusSchema,
+  status: criteriaStatusSchema,
   notes: z.string(),
   tags: z.array(z.string()).optional(),
   evidence: z.array(evidenceSchema).optional(),

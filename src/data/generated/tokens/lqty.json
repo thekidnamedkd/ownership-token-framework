@@ -19,8 +19,8 @@
   },
   "infoDescription": "Liquity is a decentralised, immutable borrowing protocol that lets users mint stablecoins (LUSD in V1, BOLD in V2) against ETH and LST collateral with no governance over core parameters.",
   "positive": 13,
-  "neutral": 0,
-  "atRisk": 0,
+  "neutral": 1,
+  "atRisk": 2,
   "evidenceEntries": 16,
   "metrics": [
     {
@@ -383,7 +383,7 @@
           "id": "offchain__trademark",
           "name": "Trademark",
           "about": "Are core trademarks and brand assets owned or controlled by a tokenholder-controlled legal entity?",
-          "status": "fail",
+          "status": "at_risk",
           "notes": "The Liquity brand and related trademarks are owned and controlled by Liquity AG (Swiss company). No tokenholder-controlled legal entity is involved.",
           "evidence": [
             {
@@ -411,7 +411,7 @@
           "id": "offchain__distribution",
           "name": "Distribution",
           "about": "Are primary domains and distribution assets owned or controlled by a tokenholder-controlled legal entity?",
-          "status": "partial",
+          "status": "warning",
           "notes": "Liquity AG controls the primary domain liquity.org and the frontend registry. However, the company explicitly does not run any user-facing frontend. All frontends are operated by independent third parties. No tokenholder-controlled entity controls distribution.",
           "evidence": [
             {
@@ -439,7 +439,7 @@
           "id": "offchain__licensing",
           "name": "Licensing",
           "about": "Is core protocol software/IP (and any associated licensing rights, where applicable) owned or controlled by a tokenholder-controlled legal entity?",
-          "status": "fail",
+          "status": "at_risk",
           "notes": "Core protocol software and IP (V2) is owned by Liquity AG and released under a multi-year Business Source License (BUSL). Commercial deployments before ~September 2027 require approval from Liquity AG.",
           "evidence": [
             {
@@ -512,7 +512,7 @@
         "metricId": "offchain",
         "metricName": "Offchain Dependencies",
         "passing": 0,
-        "total": 0,
+        "total": 3,
         "percentage": 0,
         "evaluated": false,
         "reference": true

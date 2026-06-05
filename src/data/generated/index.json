@@ -201,8 +201,8 @@
       },
       "infoDescription": "Liquity is a decentralised, immutable borrowing protocol that lets users mint stablecoins (LUSD in V1, BOLD in V2) against ETH and LST collateral with no governance over core parameters.",
       "positive": 13,
-      "neutral": 0,
-      "atRisk": 0,
+      "neutral": 1,
+      "atRisk": 2,
       "evidenceEntries": 16,
       "score": {
         "passing": 13,

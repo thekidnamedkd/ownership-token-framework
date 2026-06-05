@@ -1,5 +1,5 @@
 {
-  "status": "fail",
+  "status": "at_risk",
   "notes": "Core protocol software and IP (V2) is owned by Liquity AG and released under a multi-year Business Source License (BUSL). Commercial deployments before ~September 2027 require approval from Liquity AG.",
   "evidence": [
     {
