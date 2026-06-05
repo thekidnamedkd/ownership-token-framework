@@ -28,7 +28,9 @@
       "name": "Onchain Control",
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit. Concretely, it maps who can upgrade core logic, change parameters, invoke emergency actions, modify token behavior or supply, freeze/blacklist/seize/force-transfer assets, or limit protocol actions and exit paths.",
       "summary": "AAVE, stkAAVE and aAAVE holders control the protocol through onchain governance with Timelock execution. The token has fixed 16M supply with no mint function. Delegated steward roles exist but are elected and revocable by governance.",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -258,7 +260,9 @@
       "name": "Value Accrual",
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations. It focuses on whether a real value engine exists and is active.",
       "summary": "Protocol fees flow to a governance-controlled treasury. Holders can stake as stkAAVE in Safety Module for yield. Treasury composed of reserve factor from borrower interest + liquidation fees + flashloan premiums.",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "criteria": [
         {
           "id": "val-accrual__active",
@@ -360,7 +364,9 @@
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "Aragon has not verified additional offchain value accrual flows to the AAVE token",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "evidence": []
         }
       ]
@@ -370,7 +376,9 @@
       "name": "Verifiability",
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances. In practice, it answers: what code is running, where it is deployed, and whether the deployed bytecode can be credibly matched to publicly available source (including proxy implementations and build inputs where relevant).",
       "summary": "AAVE token proxy and implementation are verified on Etherscan. Aave V3 protocol contracts are open source and verified.",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "criteria": [
         {
           "id": "verifiability__token-source",
@@ -420,7 +428,9 @@
       "name": "Token Distribution",
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed. It measures whether any single actor or coordinated group under common control can form a controlling block large enough to determine or constrain tokenholder-governed outcomes.",
       "summary": "Aragon has not verified if any 3rd party controls a majority share of the voting power of AAVE or derivatives.",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "criteria": [
         {
           "id": "distribution__concentration",
@@ -445,7 +455,9 @@
       "name": "Offchain Dependencies",
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "US AAVE trademark is held by Quantum Swan OU (Estonia). Primary interface terms identify Aave Labs (a separate entity from the Aave DAO) as the contracting party.",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "criteria": [
         {
           "id": "offchain__trademark",

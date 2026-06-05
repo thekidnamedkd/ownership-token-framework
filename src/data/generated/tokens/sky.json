@@ -28,7 +28,9 @@
       "name": "Onchain Control",
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit. Concretely, it maps who can upgrade core logic, change parameters, invoke emergency actions, modify token behavior or supply, freeze/blacklist/seize/force-transfer assets, or limit protocol actions and exit paths.",
       "summary": "SKY holders exercise binding governance through an approval-based voting workflow with a 24-hour timelock before any changes take effect. The token is non-upgradeable with no censorship capabilities. All privileged roles trace back to governance.",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -271,7 +273,9 @@
       "name": "Value Accrual",
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations. It focuses on whether a real value engine exists and is active.",
       "summary": "Protocol revenue flows to SKY holders through automated buybacks. When the protocol earns fees, it uses them to buy SKY on the open market. All fee parameters are governance-controlled.",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "criteria": [
         {
           "id": "val-accrual__active",
@@ -391,7 +395,9 @@
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "No verified offchain revenue streams flow to SKY holders. The DAI Foundation is an independent non-profit that does not distribute profits.",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "evidence": [
             {
               "name": "Foundation Independence",
@@ -413,7 +419,9 @@
       "name": "Verifiability",
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances. In practice, it answers: what code is running, where it is deployed, and whether the deployed bytecode can be credibly matched to publicly available source (including proxy implementations and build inputs where relevant).",
       "summary": "All code is open source (AGPL-3.0) and verified on Etherscan. Anyone can audit the contracts.",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "criteria": [
         {
           "id": "verifiability__token-source",
@@ -472,7 +480,9 @@
       "name": "Token Distribution",
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed. It measures whether any single actor or coordinated group under common control can form a controlling block large enough to determine or constrain tokenholder-governed outcomes.",
       "summary": "Aragon has not been able to verify the concentration of holdings.",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "criteria": [
         {
           "id": "distribution__concentration",
@@ -509,7 +519,9 @@
       "name": "Offchain Dependencies",
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Current Sky branding is not controlled by SKY tokenholders. Skybase International's terms reserve trademarks, service marks, logos, and trade names associated with the Services, including the Sky name, to the service operator or its licensors, and the DAI Foundation independently holds the legacy Maker and DAI trademarks. All code is open source (AGPL-3.0).",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "criteria": [
         {
           "id": "offchain__trademark",

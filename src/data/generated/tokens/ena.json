@@ -28,7 +28,9 @@
       "name": "Onchain Control",
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit. Concretely, it maps who can upgrade core logic, change parameters, invoke emergency actions, modify token behavior or supply, freeze/blacklist/seize/force-transfer assets, or limit protocol actions and exit paths.",
       "summary": "ENA governance is advisory only. Tokenholders vote via Snapshot, but the Dev Multisig executes all decisions. There is no onchain governance workflow, no timelock, and ENA holders cannot elect or remove multisig signers. The ENA token itself is non-upgradeable, but sENA and rsENA are upgradeable proxies controlled by separate multisigs. Staking contracts include blacklist capabilities with seizure powers.",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -331,7 +333,9 @@
       "name": "Value Accrual",
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations. It focuses on whether a real value engine exists and is active.",
       "summary": "No active programmatic value accrual to ENA holders. **sUSDe holders receive USDe yield** from protocol operations; **sENA holders do NOT receive this yield**, only ecosystem airdrops. rsENA holders receive Symbiotic restaking rewards. Treasury flows through multisig-controlled wallets. All accrual mechanisms are controlled by multisigs or EOAs, not tokenholders.",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "criteria": [
         {
           "id": "val-accrual__active",
@@ -525,7 +529,9 @@
       "name": "Verifiability",
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances. In practice, it answers: what code is running, where it is deployed, and whether the deployed bytecode can be credibly matched to publicly available source (including proxy implementations and build inputs where relevant).",
       "summary": "All core contracts are verified on Etherscan and open source on GitHub. Multiple security audits completed.",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "criteria": [
         {
           "id": "verifiability__token-source",
@@ -631,7 +637,9 @@
       "name": "Token Distribution",
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed. It measures whether any single actor or coordinated group under common control can form a controlling block large enough to determine or constrain tokenholder-governed outcomes.",
       "summary": "70% insider allocation. Vesting unlocks continue through April 2028 for all categories. Circulating supply is approximately 55% of total.",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "criteria": [
         {
           "id": "distribution__concentration",
@@ -690,7 +698,9 @@
       "name": "Offchain Dependencies",
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Trademarks and IP owned by Ethena (BVI) Limited, not controlled by ENA tokenholders. Primary interfaces operate under BVI law. Code is open source but copyright belongs to Ethena Labs.",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "criteria": [
         {
           "id": "offchain__trademark",

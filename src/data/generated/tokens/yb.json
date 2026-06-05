@@ -28,7 +28,9 @@
       "name": "Onchain Control",
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit. Concretely, it maps who can upgrade core logic, change parameters, invoke emergency actions, modify token behavior or supply, freeze/blacklist/seize/force-transfer assets, or limit protocol actions and exit paths.",
       "summary": "veYB holders control the protocol through Aragon governance. The YB token is non-upgradeable with renounced ownership. Protocol upgrades are controlled by the DAO through MigrationFactoryOwner. The veYB contract owner (_yb.eth) can change transfer clearance rules, but this does not constitute censorship—users remain custodians of their locked YB.",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -246,7 +248,9 @@
       "name": "Value Accrual",
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations. It focuses on whether a real value engine exists and is active.",
       "summary": "veYB holders receive **protocol admin fees** (a subset of protocol revenue) via FeeDistributor. Fees originate from LT (Liquidity Token) vault admin fees, distributed weekly in yb-LP tokens. DAO controls fee direction via MigrationFactoryOwner, and gauge voting directs YB emissions. The Ecosystem Reserve is controlled by an EOA, not the DAO.",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "criteria": [
         {
           "id": "val-accrual__active",
@@ -370,7 +374,9 @@
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "Aragon has not been able to verify whether YieldBasis AG (operating entity) provides any offchain value to YB token holders. No evidence of equity linkage, offchain revenue sharing, or legal commitments to tokenholders.",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "evidence": []
         }
       ]
@@ -380,7 +386,9 @@
       "name": "Verifiability",
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances. In practice, it answers: what code is running, where it is deployed, and whether the deployed bytecode can be credibly matched to publicly available source (including proxy implementations and build inputs where relevant).",
       "summary": "All core contracts are verified on Etherscan with matching GitHub source (Vyper 0.4.3). Protocol has undergone 6 independent security audits (Statemind, Chainsecurity, Quantstamp, Mixbytes, Electisec, Pashov).",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "criteria": [
         {
           "id": "verifiability__token-source",
@@ -437,7 +445,9 @@
       "name": "Token Distribution",
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed. It measures whether any single actor or coordinated group under common control can form a controlling block large enough to determine or constrain tokenholder-governed outcomes.",
       "summary": "~77M YB locked as veYB (~10% of minted supply). Team (25%) + Investors (12.1%) have 24-month vesting with a 6-month cliff ending March 2026, after which 25% unlocks and the remaining 75% vests linearly over 18 months.",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "criteria": [
         {
           "id": "distribution__concentration",
@@ -491,7 +501,9 @@
       "name": "Offchain Dependencies",
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Aragon has not been able to verify trademark ownership. Aragon has not been able to identify published terms of service or a contracting entity for the primary distribution channels. DAO contracts use AGPL v3.0 (open source), but Factory uses proprietary license.",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "criteria": [
         {
           "id": "offchain__trademark",

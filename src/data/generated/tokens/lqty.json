@@ -28,7 +28,9 @@
       "name": "Onchain Control",
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit. Concretely, it maps who can upgrade core logic, change parameters, invoke emergency actions, modify token behavior or supply, freeze/blacklist/seize/force-transfer assets, or limit protocol actions and exit paths.",
       "summary": "LQTY holders' onchain power is voting on V2 Protocol Incentivized Liquidity (PIL) emissions. The rest of the protocol is described as \"Governance Free\" with immutable contracts and no admin keys, upgrade paths, or privileged roles.",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -168,7 +170,9 @@
       "name": "Value Accrual",
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations. It focuses on whether a real value engine exists and is active.",
       "summary": "Stakers earn two live onchain streams: V1 protocol fees (ETH redemption fees + LUSD borrowing fees) routed directly to LQTYStaking, and V2 bribes paid pro-rata to voters who allocate their voting power to initiatives. There is no protocol treasury - V2 sends 100% of revenue straight to users. Fee parameters and revenue routing are immutable and cannot be modified by governance or the team.",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "criteria": [
         {
           "id": "val-accrual__active",
@@ -260,7 +264,9 @@
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "The protocol is entirely onchain - Aragon is not aware of any offchain entities towards which value accrues to the LQTY token or otherwise.",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "evidence": []
         }
       ]
@@ -270,7 +276,9 @@
       "name": "Verifiability",
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances. In practice, it answers: what code is running, where it is deployed, and whether the deployed bytecode can be credibly matched to publicly available source (including proxy implementations and build inputs where relevant).",
       "summary": "Both the LQTY token and core Liquity protocol contracts (V1 and V2) are open source on GitHub and source-verified against their onchain deployments - no closed-source components or unverified bytecode.",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "criteria": [
         {
           "id": "verifiability__token-source",
@@ -325,7 +333,9 @@
       "name": "Token Distribution",
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed. It measures whether any single actor or coordinated group under common control can form a controlling block large enough to determine or constrain tokenholder-governed outcomes.",
       "summary": "LQTY supply is fully circulating - team and investor lockups ended in 2022, leaving only the immutable Stability Pool emission schedule for V1 depositors. Concentration among third parties has not yet been independently verified.",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "criteria": [
         {
           "id": "distribution__concentration",
@@ -365,7 +375,9 @@
       "name": "Offchain Dependencies",
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Offchain dependencies for LQTY (trademark/brand, primary domain, and core software licensing) are controlled by Liquity AG, a Swiss company. LQTY tokenholders have no governance rights or control over Liquity AG. The core V1 protocol is immutable and governance-free, but brand, distribution, and V2 IP rights remain with the company.",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "criteria": [
         {
           "id": "offchain__trademark",
