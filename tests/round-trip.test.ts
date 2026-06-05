@@ -1,12 +1,20 @@
 /**
- * Round-trip gate: composed read models must reproduce the golden fixtures
- * captured from the pre-refactor runtime (tests/golden/, frozen 2026-06-05).
+ * Round-trip gate: the COMPOSER's join/scoring logic must reproduce the
+ * golden fixtures captured from the pre-refactor runtime (tests/golden/,
+ * frozen 2026-06-05) when run over the frozen content snapshot
+ * (tests/fixtures/content-6b17fa7/, the atoms as migrated at commit 6b17fa7).
+ *
+ * Both inputs and expectations are frozen: this permanently regression-tests
+ * the composition logic without breaking when live content/ legitimately
+ * evolves (editorial edits, CI timestamp updates). Live content is covered
+ * by atoms-valid.test.ts (schemas) and freshness.test.ts (generated parity).
  *
  * ONE intentional diff is allowed and asserted explicitly: the token status
- * counts (positive/neutral/atRisk/evidenceEntries) are now DERIVED from
+ * counts (positive/neutral/atRisk/evidenceEntries) are DERIVED from
  * evaluations at compose time — the legacy hand-maintained counts were stale
  * for all 11 tokens and are corrected, not preserved.
  */
+import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 // biome-ignore lint/style/noNamespaceImport: JSON module namespaces
 import goldenFaq from "./golden/faq.json"
@@ -27,7 +35,7 @@ const withoutCounts = (obj: Record<string, unknown>) =>
     )
   )
 
-const composed = composeAll()
+const composed = composeAll(join(__dirname, "fixtures", "content-6b17fa7"))
 
 describe("round-trip vs golden fixtures", () => {
   it("covers every golden token, none extra", () => {
