@@ -60,29 +60,30 @@ export const tokenCountsSchema = z.strictObject({
   evidenceEntries: z.number(),
 })
 
-/** generated/index.json row — the dashboard-table read model (legacy Token shape). */
+/**
+ * generated/index.json row — the dashboard-table read model (legacy Token
+ * shape). Carries the FULL token score (per-metric breakdown feeds the score
+ * hover) and a flat criterion-status map (single-criterion columns across all
+ * tokens) so the dashboard needs only this one read model.
+ */
 export const indexRowSchema = z.strictObject({
   ...tokenAtomSchema.shape,
   positive: z.number(),
   neutral: z.number(),
   atRisk: z.number(),
   evidenceEntries: z.number(),
-  score: z.strictObject({
-    passing: z.number(),
-    total: z.number(),
-    percentage: z.number(),
-  }),
+  score: tokenScoreSchema,
+  criteriaStatuses: z.record(z.string(), criteriaStatusSchema),
 })
 
 export const indexSchema = z.strictObject({
   tokens: z.array(indexRowSchema),
 })
 
-/** generated/tokens/<id>.json — the per-token reusable unit. */
+/** generated/tokens/<id>.json — the per-token reusable unit (index row + full metrics). */
 export const tokenDocSchema = z.strictObject({
   ...indexRowSchema.shape,
   metrics: z.array(composedMetricSchema),
-  score: tokenScoreSchema,
 })
 
 /** generated/framework.json — definitions + anchors + base URL. */

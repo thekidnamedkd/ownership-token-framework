@@ -7,11 +7,16 @@ import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 import {
   apiErrorSchema,
+  frameworkDocSchema,
   indexSchema,
   provenanceSchema,
   tokenDocSchema,
 } from "@/lib/schemas"
-import { handleGetToken, handleGetTokens } from "@/lib/server/token-api"
+import {
+  handleGetFramework,
+  handleGetToken,
+  handleGetTokens,
+} from "@/lib/server/token-api"
 
 const generated = join(__dirname, "..", "src", "data", "generated")
 const readJson = (p: string) => JSON.parse(readFileSync(p, "utf8"))
@@ -46,6 +51,17 @@ describe("GET /api/tokens", () => {
     expect(provenance.snapshot_id).toBe(
       readJson(join(generated, "manifest.json")).snapshot_id
     )
+  })
+})
+
+describe("GET /api/framework", () => {
+  it("returns the framework doc with provenance, identical to generated", async () => {
+    const res = handleGetFramework()
+    expect(res.status).toBe(200)
+    const payload = await body(res)
+    expect(() => frameworkDocSchema.parse(payload.data)).not.toThrow()
+    expect(() => provenanceSchema.parse(payload.provenance)).not.toThrow()
+    expect(payload.data).toEqual(readJson(join(generated, "framework.json")))
   })
 })
 

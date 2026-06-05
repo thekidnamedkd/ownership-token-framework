@@ -13,6 +13,7 @@
  */
 import {
   getProvenance,
+  getPublishedFramework,
   getPublishedIndex,
   getPublishedTokenDoc,
 } from "@/lib/server/published-data"
@@ -32,6 +33,14 @@ function jsonResponse(body: unknown, status = 200): Response {
 export function handleGetTokens(): Response {
   return jsonResponse({
     data: getPublishedIndex(),
+    provenance: getProvenance(),
+  })
+}
+
+/** GET /api/framework — canonical metric/criteria definitions + anchors. */
+export function handleGetFramework(): Response {
+  return jsonResponse({
+    data: getPublishedFramework(),
     provenance: getProvenance(),
   })
 }

@@ -117,12 +117,9 @@ describe("round-trip vs golden fixtures", () => {
       const { metrics: _metrics, ...doc } = composed.tokenDocs.find(
         (d: { id: string }) => d.id === row.id
       )
-      expect(withoutCounts(row)).toEqual(withoutCounts(doc))
-      expect(row.score).toEqual({
-        passing: doc.score.passing,
-        total: doc.score.total,
-        percentage: doc.score.percentage,
-      })
+      // Index rows ARE the doc minus metrics (full score + criterion-status
+      // map included) — the dashboard read model needs no per-token docs.
+      expect(row).toEqual(doc)
     }
   })
 })

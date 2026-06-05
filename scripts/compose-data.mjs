@@ -124,20 +124,20 @@ export function composeAll(dir = contentDir) {
       neutral: countBy("warning"),
       atRisk: countBy("at_risk"),
       evidenceEntries: allCriteria.flatMap((c) => c.evidence ?? []).length,
-      metrics,
       score,
+      criteriaStatuses: Object.fromEntries(
+        allCriteria.map((c) => [c.id, c.status])
+      ),
+      metrics,
     })
   }
 
+  // Index rows are the dashboard read model: full score (the score hover
+  // shows the per-metric breakdown) and a flat criterion-status map (the
+  // table renders single-criterion columns across all tokens) — so the
+  // dashboard needs exactly one fetch and never loads per-token docs.
   const index = {
-    tokens: tokenDocs.map(({ metrics: _m, score, ...row }) => ({
-      ...row,
-      score: {
-        passing: score.passing,
-        total: score.total,
-        percentage: score.percentage,
-      },
-    })),
+    tokens: tokenDocs.map(({ metrics: _metrics, ...row }) => row),
   }
 
   const frameworkDoc = { baseUrl: meta.baseUrl, metrics: framework }

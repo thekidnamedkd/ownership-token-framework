@@ -6,9 +6,16 @@
  * implementation replaces the internals without any response-shape change —
  * consumers depend only on this module's interface.
  */
+import frameworkData from "@/data/generated/framework.json"
 import indexData from "@/data/generated/index.json"
 import manifestData from "@/data/generated/manifest.json"
-import type { IndexRow, Manifest, Provenance, TokenDoc } from "@/lib/schemas"
+import type {
+  FrameworkDoc,
+  IndexRow,
+  Manifest,
+  Provenance,
+  TokenDoc,
+} from "@/lib/schemas"
 
 const manifest = manifestData as Manifest
 
@@ -50,6 +57,10 @@ export function getPublishedIndex(): { tokens: IndexRow[] } {
 
 export function getPublishedTokenDoc(tokenId: string): TokenDoc | null {
   return tokenDocs.get(tokenId.trim().toLowerCase()) ?? null
+}
+
+export function getPublishedFramework(): FrameworkDoc {
+  return frameworkData as FrameworkDoc
 }
 
 export function listPublishedTokenIds(): string[] {

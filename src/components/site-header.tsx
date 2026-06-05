@@ -23,7 +23,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { useTokenSearch } from "@/hooks/use-token-search"
-import { FRAMEWORK_BASE_URL } from "@/lib/framework"
+import { getFrameworkBaseUrl } from "@/lib/framework"
 import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
@@ -115,7 +115,7 @@ export function SiteHeader() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink
-                  render={<Link href={FRAMEWORK_BASE_URL} isExternal />}
+                  render={<Link href={getFrameworkBaseUrl()} isExternal />}
                 >
                   Framework
                 </NavigationMenuLink>
@@ -216,7 +216,7 @@ export function SiteHeader() {
               <DropdownMenuItem className="py-3">
                 <Link
                   className="flex w-full items-center"
-                  href={FRAMEWORK_BASE_URL}
+                  href={getFrameworkBaseUrl()}
                   isExternal
                 >
                   Framework
