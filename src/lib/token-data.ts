@@ -3,34 +3,15 @@ import type { IndexRow } from "@/lib/schemas"
 
 export type Token = IndexRow
 
-const rawTokens = indexData.tokens as Token[]
-
-function normalizeTokenSymbol(value: string): string {
-  return value.trim().toUpperCase()
-}
-
-const envSymbolFilter = normalizeTokenSymbol(
-  import.meta.env.VITE_TOKEN_SYMBOL ?? ""
-)
-
-const matchingTokens = envSymbolFilter
-  ? rawTokens.filter(
-      (token) => normalizeTokenSymbol(token.symbol) === envSymbolFilter
-    )
-  : []
-
-const filteredTokens = matchingTokens.length > 0 ? matchingTokens : rawTokens
+const tokens = indexData.tokens as Token[]
 
 function getTokens(): Token[] {
-  return filteredTokens
+  return tokens
 }
 
 function getTokenById(tokenId: string): Token | null {
   const normalizedId = tokenId.trim().toLowerCase()
-  return (
-    filteredTokens.find((token) => token.id.toLowerCase() === normalizedId) ??
-    null
-  )
+  return tokens.find((token) => token.id.toLowerCase() === normalizedId) ?? null
 }
 
-export { envSymbolFilter, getTokenById, getTokens }
+export { getTokenById, getTokens }
