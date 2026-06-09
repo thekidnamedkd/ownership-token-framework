@@ -19,7 +19,7 @@
  * Composition uses the VENDORED composer (scripts/lib/compose-data.mjs), so
  * the app produces byte-identical output to otf-cms.
  */
-import { execSync } from "node:child_process"
+import { execFileSync } from "node:child_process"
 import {
   existsSync,
   mkdirSync,
@@ -28,6 +28,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs"
+import { Buffer } from "node:buffer"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -47,7 +48,7 @@ if (!ref && !local) {
 }
 
 /** Resolve the otf-cms `content/` directory for this build. */
-function resolveContentDir() {
+async function resolveContentDir() {
   if (local) {
     const dir = join(local, "content")
     if (!existsSync(dir)) throw new Error(`No content/ at ${local}`)
@@ -60,13 +61,27 @@ function resolveContentDir() {
   const tmp = mkdtempSync(join(tmpdir(), "otf-content-"))
   const tarball = join(tmp, "otf-cms.tar.gz")
   console.log(`build-data: fetching otf-cms@${ref}`)
-  // GitHub tarball API; -L follows the redirect to the asset.
-  execSync(
-    `curl -sSL -H "Authorization: Bearer ${token}" -H "User-Agent: otf-app-build" ` +
-      `-o "${tarball}" "https://api.github.com/repos/aragon/otf-cms/tarball/${ref}"`,
-    { stdio: "inherit" }
+
+  // Native fetch — no shell. The token rides an Authorization header (never a
+  // command line), and the ref is URL-encoded into the path. GitHub's tarball
+  // API 302-redirects to a pre-signed codeload URL; fetch follows it.
+  const res = await fetch(
+    `https://api.github.com/repos/aragon/otf-cms/tarball/${encodeURIComponent(ref)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "User-Agent": "otf-app-build",
+        Accept: "application/vnd.github+json",
+      },
+    }
   )
-  execSync(`tar xzf "${tarball}" -C "${tmp}"`, { stdio: "inherit" })
+  if (!res.ok) {
+    throw new Error(`fetch otf-cms@${ref} failed: ${res.status} ${res.statusText}`)
+  }
+  writeFileSync(tarball, Buffer.from(await res.arrayBuffer()))
+
+  // execFileSync with an args array — no shell, so no metacharacter injection.
+  execFileSync("tar", ["xzf", tarball, "-C", tmp], { stdio: "inherit" })
   const extracted = readdirSync(tmp).find((n) => n.startsWith("aragon-otf-cms-"))
   if (!extracted) throw new Error("tarball did not contain the expected root")
   return {
@@ -75,7 +90,7 @@ function resolveContentDir() {
   }
 }
 
-const { contentDir, cleanup } = resolveContentDir()
+const { contentDir, cleanup } = await resolveContentDir()
 try {
   const { index, tokenDocs, frameworkDoc, faq, testimonials, manifest } =
     composeAll(contentDir)
