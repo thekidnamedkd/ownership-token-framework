@@ -38,13 +38,51 @@ Criterion ids encode their place in the rubric: `onchain-ctrl__governance-workfl
 
 A token's `score` counts only evaluated, non-reference criteria.
 
+The per-token count fields predate this vocabulary and don't match it
+one-to-one: `positive` = positive, **`neutral` = warning**, **`atRisk` =
+at_risk**. `evidenceEntries` is the total number of evidence items across all
+criteria. Trust `criteriaStatuses` / `criteria[].status` for the canonical
+labels; treat the counts as pre-rolled tallies.
+
 ## Provenance and reproducibility
 
 Every response is `{ data, provenance }`. `provenance.snapshot_id` is a
 deterministic content hash of the entire published data set — cite it to pin
 exactly what you read. `provenance.commit_ref` ties it to a deployment.
-`published_at` may be null in the current serving mode; use `snapshot_id` /
-`commit_ref` as the version of record.
+`published_at` may be null in the current serving mode (`provenance.source`
+tells you that mode, e.g. `generated`); use `snapshot_id` / `commit_ref` as the
+version of record.
+
+## Shape of a response
+
+Every endpoint returns `{ data, provenance }`. The index nests its rows under
+`data.tokens`; a token doc is `data` directly. Trimmed:
+
+```jsonc
+// GET /api/v1/tokens/ldo
+{
+  "data": {
+    "id": "ldo", "name": "Lido DAO", "symbol": "LDO",
+    "score": { "passing": 12, "total": 12, "percentage": 100 },
+    "positive": 15, "neutral": 0, "atRisk": 0, "evidenceEntries": 26,
+    "criteriaStatuses": { "onchain-ctrl__governance-workflow": "positive" },
+    "metrics": [{
+      "id": "onchain-ctrl", "name": "Onchain Control",
+      "criteria": [{
+        "id": "onchain-ctrl__governance-workflow",
+        "name": "Governance workflow", "status": "positive",
+        "notes": "…",
+        "evidence": [{ "name": "…", "summary": "…",
+          "urls": [{ "name": "Forum", "url": "https://…", "type": "vote" }] }]
+      }]
+    }]
+  },
+  "provenance": {
+    "snapshot_id": "…", "commit_ref": "…",
+    "published_at": null, "source": "generated"
+  }
+}
+```
 
 ## How to use it well
 
