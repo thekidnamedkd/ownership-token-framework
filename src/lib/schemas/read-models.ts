@@ -1,9 +1,9 @@
 /**
  * Read-model schemas — the composed, consumer-shaped output under
- * `src/data/generated/` (produced by scripts/compose-data.mjs).
+ * `src/data/generated/` (produced by scripts/compose-data.ts).
  *
- * These are the shapes the app renders and that the future publish
- * pipeline will serve from KV/R2 — transport changes later, shape doesn't.
+ * These are the shapes the app renders and that the publish pipeline serves
+ * from GitHub Release snapshots — transport changes later, shape doesn't.
  */
 import { z } from "zod"
 import { tokenAtomSchema } from "./atoms"
@@ -127,7 +127,7 @@ export const provenanceSchema = z.strictObject({
   commit_ref: z.string(),
   last_updated: z.string().nullable(),
   published_at: z.string().nullable(),
-  source: z.enum(["generated", "kv"]),
+  source: z.enum(["generated", "release"]),
 })
 
 export const apiErrorSchema = z.strictObject({

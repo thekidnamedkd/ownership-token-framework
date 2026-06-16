@@ -198,7 +198,7 @@ export async function getProvenance(): Promise<Provenance> {
     commit_ref: resolveCommitRef(),
     last_updated: bundle.manifest.last_updated,
     published_at: null,
-    source: "kv",
+    source: "release",
   }
 }
 
