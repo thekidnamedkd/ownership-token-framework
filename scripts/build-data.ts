@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 /**
  * Build-time data layer. Produces src/data/generated/ (the read models the
  * app serves) from otf-cms content. Three modes, by env:
@@ -17,8 +17,12 @@
  *                          churn, no write access to this repo.
  *
  * Composition uses the VENDORED composer (scripts/lib/compose-data.mjs), so
- * the app produces byte-identical output to otf-cms.
+ * the app produces byte-identical output to otf-cms. The composed output is
+ * Zod-validated against the shared contract BEFORE it is written, so an
+ * invalid ref (or composer/schema drift) fails the build instead of shipping
+ * unvalidated data into the deployment artifact.
  */
+import { Buffer } from "node:buffer"
 import { execFileSync } from "node:child_process"
 import {
   existsSync,
@@ -28,11 +32,19 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs"
-import { Buffer } from "node:buffer"
 import { tmpdir } from "node:os"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
+// Vendored composer (plain JS, no types) — same composition logic as otf-cms.
 import { composeAll } from "./lib/compose-data.mjs"
+import {
+  faqSchema,
+  frameworkDocSchema,
+  indexSchema,
+  manifestSchema,
+  testimonialsSchema,
+  tokenDocSchema,
+} from "../src/lib/schemas/index"
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..")
 const generatedDir = join(root, "src", "data", "generated")
@@ -48,7 +60,10 @@ if (!ref && !local) {
 }
 
 /** Resolve the otf-cms `content/` directory for this build. */
-async function resolveContentDir() {
+async function resolveContentDir(): Promise<{
+  contentDir: string
+  cleanup: () => void
+}> {
   if (local) {
     const dir = join(local, "content")
     if (!existsSync(dir)) throw new Error(`No content/ at ${local}`)
@@ -66,7 +81,7 @@ async function resolveContentDir() {
   // command line), and the ref is URL-encoded into the path. GitHub's tarball
   // API 302-redirects to a pre-signed codeload URL; fetch follows it.
   const res = await fetch(
-    `https://api.github.com/repos/aragon/otf-cms/tarball/${encodeURIComponent(ref)}`,
+    `https://api.github.com/repos/aragon/otf-cms/tarball/${encodeURIComponent(ref as string)}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -95,8 +110,17 @@ try {
   const { index, tokenDocs, frameworkDoc, faq, testimonials, manifest } =
     composeAll(contentDir)
 
+  // Validate against the shared contract before writing. Throwing here fails
+  // the build — invalid content never reaches the deployment artifact.
+  indexSchema.parse(index)
+  frameworkDocSchema.parse(frameworkDoc)
+  faqSchema.parse(faq)
+  testimonialsSchema.parse(testimonials)
+  manifestSchema.parse(manifest)
+  for (const doc of tokenDocs) tokenDocSchema.parse(doc)
+
   rmSync(generatedDir, { recursive: true, force: true })
-  const write = (rel, data) => {
+  const write = (rel: string, data: unknown) => {
     const p = join(generatedDir, rel)
     mkdirSync(dirname(p), { recursive: true })
     writeFileSync(p, `${JSON.stringify(data, null, 2)}\n`)
@@ -109,7 +133,7 @@ try {
   for (const doc of tokenDocs) write(join("tokens", `${doc.id}.json`), doc)
 
   console.log(
-    `build-data: composed ${tokenDocs.length} token docs (snapshot ${manifest.snapshot_id})`
+    `build-data: validated + composed ${tokenDocs.length} token docs (snapshot ${manifest.snapshot_id})`
   )
 } finally {
   cleanup()
