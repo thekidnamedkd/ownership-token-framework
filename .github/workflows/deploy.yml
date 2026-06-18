@@ -96,11 +96,13 @@ jobs:
 
       - name: Deploy prebuilt output
         id: deploy
+        # --yes confirms default settings for a never-deployed project (sets
+        # skipAutoDetectionConfirmation) so a fresh project deploys non-interactively.
         run: |
           if [ "$TARGET" = production ]; then
-            url=$(vercel deploy --prebuilt --prod)
+            url=$(vercel deploy --prebuilt --prod --yes)
           else
-            url=$(vercel deploy --prebuilt)
+            url=$(vercel deploy --prebuilt --yes)
           fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
