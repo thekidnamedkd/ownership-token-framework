@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { useTokenSearch } from "@/hooks/use-token-search"
 import { getFrameworkBaseUrl } from "@/lib/framework"
-import { cn } from "@/lib/utils"
+import { cn, isPlaceholder } from "@/lib/utils"
 
 export function SiteHeader() {
   const [submitDialogOpen, setSubmitDialogOpen] = useState(false)
@@ -187,7 +187,14 @@ export function SiteHeader() {
                           to="/tokens/$tokenId"
                         >
                           <Avatar size="sm">
-                            <AvatarImage alt={token.name} src={token.icon} />
+                            <AvatarImage
+                              alt={token.name}
+                              src={
+                                isPlaceholder(token.icon)
+                                  ? undefined
+                                  : token.icon
+                              }
+                            />
                             <AvatarFallback className="bg-blue-500 text-xs text-white">
                               {token.name.slice(0, 2)}
                             </AvatarFallback>
@@ -288,7 +295,12 @@ export function SiteHeader() {
                       to="/tokens/$tokenId"
                     >
                       <Avatar size="sm">
-                        <AvatarImage alt={token.name} src={token.icon} />
+                        <AvatarImage
+                          alt={token.name}
+                          src={
+                            isPlaceholder(token.icon) ? undefined : token.icon
+                          }
+                        />
                         <AvatarFallback className="bg-blue-500 text-white text-xs">
                           {token.name.slice(0, 2)}
                         </AvatarFallback>

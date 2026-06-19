@@ -1,6 +1,21 @@
 import { z } from "zod"
 
 /**
+ * Publish-readiness sentinel. A field is either a real value or the literal
+ * "TK" (a deferral marker borrowed from editorial usage). Schemas stay lenient
+ * so partial tokens still validate and previews build; the publish gate
+ * (schemas/readiness.ts) treats "TK" — like empty and `unevaluated` — as
+ * UNRESOLVED and excludes the token from Release.
+ */
+export const TK = "TK" as const
+
+/** A url field that may be deferred with the TK sentinel. */
+export const tkUrlSchema = z.union([z.url(), z.literal(TK)])
+
+/** A free-text field that may be deferred with the TK sentinel. */
+export const tkTextSchema = z.string()
+
+/**
  * Canonical criteria workflow statuses — the ONLY valid vocabulary.
  * Non-canonical values are a validation failure by design (ADR 0002):
  * there is no runtime mapping/normalization layer for dialect statuses.
@@ -26,7 +41,7 @@ export const criteriaStatusSchema = z.enum([
 
 export const evidenceUrlSchema = z.strictObject({
   name: z.string(),
-  url: z.string(),
+  url: tkUrlSchema,
   type: z.enum(["docs", "explorer", "github", "vote", "website"]).optional(),
 })
 

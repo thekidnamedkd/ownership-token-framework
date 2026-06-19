@@ -6,7 +6,7 @@
  * absent and produced at composition time (scripts/compose-data.mjs).
  */
 import { z } from "zod"
-import { criteriaStatusSchema, evidenceSchema } from "./common"
+import { criteriaStatusSchema, evidenceSchema, tkUrlSchema } from "./common"
 
 /** content/tokens/<id>.json — registry atom: identity, display, chain data. */
 export const tokenAtomSchema = z.strictObject({
@@ -15,14 +15,15 @@ export const tokenAtomSchema = z.strictObject({
   name: z.string(),
   symbol: z.string(),
   address: z.string(),
-  icon: z.string(),
+  /** Icon url, or "TK" while deferred (lenient so partial tokens compose). */
+  icon: tkUrlSchema,
   description: z.string(),
   infoDescription: z.string(),
   network: z.string(),
   links: z.strictObject({
-    website: z.string(),
-    twitter: z.string(),
-    scan: z.string(),
+    website: tkUrlSchema,
+    twitter: tkUrlSchema,
+    scan: tkUrlSchema,
   }),
   /** Editorial provenance; future home is Git history (publish pipeline). */
   lastUpdated: z.number(),

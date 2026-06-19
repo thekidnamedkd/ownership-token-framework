@@ -21,6 +21,7 @@
  */
 import { createHash } from "node:crypto"
 import {
+  existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -35,6 +36,17 @@ const contentDir = join(root, "content")
 const generatedDir = join(root, "generated")
 
 const readJson = (p: string): any => JSON.parse(readFileSync(p, "utf8"))
+
+/**
+ * Tolerant read for partial tokens: a token enters the set as soon as its
+ * identity file exists, but its criterion atoms / metric summaries may not
+ * exist yet (editors stand a token up progressively). A missing file is NOT a
+ * build error — it yields `fallback` so the doc composes fully with everything
+ * `unevaluated`/empty. The publish gate (bundle-snapshot) excludes such WIP
+ * tokens from Release; previews build on the partial data.
+ */
+const readJsonOr = <T>(p: string, fallback: T): T =>
+  existsSync(p) ? (readJson(p) as T) : fallback
 
 const SCORED_STATUSES = new Set(["positive", "warning", "at_risk"])
 
@@ -91,17 +103,23 @@ export function composeAll(dir: string = contentDir) {
     const metrics: any[] = []
     for (const fm of framework) {
       const metricDir = join(dir, "evaluations", tokenId, fm.id)
-      const editorial = readJson(
-        join(dir, "summaries", tokenId, `${fm.id}.json`)
+      // Missing summary → empty editorial (token still composing).
+      const editorial = readJsonOr<{ summary: string; tags: string[] }>(
+        join(dir, "summaries", tokenId, `${fm.id}.json`),
+        { summary: "", tags: [] }
       )
       const criteria = fm.criteria.map((fc: any) => {
-        const atom = readJson(join(metricDir, `${fc.id}.json`))
+        // Missing criterion atom → unevaluated (no notes/evidence yet).
+        const atom = readJsonOr<any>(join(metricDir, `${fc.id}.json`), {
+          status: "unevaluated",
+          notes: "",
+        })
         const composed: any = {
           id: fc.id,
           name: atom.name ?? fc.name,
           about: fc.about,
           status: atom.status,
-          notes: atom.notes,
+          notes: atom.notes ?? "",
         }
         if ("tags" in atom) composed.tags = atom.tags
         if ("evidence" in atom) composed.evidence = atom.evidence
@@ -153,7 +171,9 @@ export function composeAll(dir: string = contentDir) {
   // gate meaningful); changes exactly when published data changes. The future
   // publish pipeline reuses this as the R2 snapshot key component.
   const snapshotId = createHash("sha256")
-    .update(JSON.stringify({ index, tokenDocs, frameworkDoc, faq, testimonials }))
+    .update(
+      JSON.stringify({ index, tokenDocs, frameworkDoc, faq, testimonials })
+    )
     .digest("hex")
     .slice(0, 16)
 
