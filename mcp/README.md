@@ -51,11 +51,36 @@ The server speaks MCP over **stdio**; it is meant to be launched by an MCP
 client, not used interactively. stdout is reserved for the protocol — all logs
 go to stderr.
 
+## Global install (optional)
+
+To drop the absolute path from every client config, install the built package
+globally so the `otf-mcp-server` executable lands on your `PATH`:
+
+```bash
+cd mcp
+npm run build      # produces dist/
+npm install -g .   # puts `otf-mcp-server` on PATH (from the `bin` field)
+```
+
+Now any client can launch it by name — `otf-mcp-server` with no `node` and no
+path. The per-client snippets below show both forms. To upgrade after pulling
+new code, rebuild and re-run `npm install -g .`; remove it with
+`npm uninstall -g otf-mcp-server`.
+
 ## Client configuration
 
-After `npm run build`, use the **absolute path** to `dist/index.js`.
+After a **global install** (above), use the bare command `otf-mcp-server`.
+Otherwise, after `npm run build`, use the **absolute path** to `dist/index.js`.
 
 ### Claude
+
+Global install:
+
+```bash
+claude mcp add otf --env OTF_API_BASE=https://ownership-token-framework.vercel.app -- otf-mcp-server
+```
+
+Local path:
 
 ```bash
 claude mcp add otf --env OTF_API_BASE=https://ownership-token-framework.vercel.app -- node /ABSOLUTE/PATH/TO/ownership-token-framework/mcp/dist/index.js
@@ -63,7 +88,23 @@ claude mcp add otf --env OTF_API_BASE=https://ownership-token-framework.vercel.a
 
 ### Cursor
 
-Edit `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project):
+Edit `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project). With a global
+install, set `"command": "otf-mcp-server"` and drop `args`:
+
+```json
+{
+  "mcpServers": {
+    "otf": {
+      "command": "otf-mcp-server",
+      "env": {
+        "OTF_API_BASE": "https://ownership-token-framework.vercel.app"
+      }
+    }
+  }
+}
+```
+
+Without a global install, point at the built file:
 
 ```json
 {
@@ -81,7 +122,15 @@ Edit `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project):
 
 ### Codex CLI
 
-Add to `~/.codex/config.toml`:
+Add to `~/.codex/config.toml`. With a global install, use the bare command:
+
+```toml
+[mcp_servers.otf]
+command = "otf-mcp-server"
+env = { OTF_API_BASE = "https://ownership-token-framework.vercel.app" }
+```
+
+Without a global install, point at the built file:
 
 ```toml
 [mcp_servers.otf]
