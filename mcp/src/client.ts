@@ -13,6 +13,26 @@ export const DEFAULT_API_BASE = "https://ownership-token-framework.vercel.app";
 
 export function getApiBase(): string {
   const raw = (process.env.OTF_API_BASE ?? DEFAULT_API_BASE).trim();
+  // SSRF guard: OTF_API_BASE is the one trust anchor — it must be a real
+  // http(s) origin (set by the operator, never derived from agent/tool input).
+  // Validate it so a typo or hostile value can't redirect requests elsewhere.
+  let parsed: URL;
+  try {
+    parsed = new URL(raw);
+  } catch {
+    throw new Error(`OTF_API_BASE is not a valid URL: ${JSON.stringify(raw)}`);
+  }
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+    throw new Error(
+      `OTF_API_BASE must use http(s); got ${JSON.stringify(parsed.protocol)}`,
+    );
+  }
+  const isLocal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(parsed.hostname);
+  if (parsed.protocol === "http:" && !isLocal) {
+    process.stderr.write(
+      `otf-mcp-server: warning — OTF_API_BASE uses plain http (${parsed.hostname}); use https in production.\n`,
+    );
+  }
   // Strip a trailing slash so we can join paths predictably.
   return raw.replace(/\/+$/, "");
 }
@@ -69,6 +89,8 @@ export class OtfApiError extends Error {
 }
 
 const REQUEST_TIMEOUT_MS = 15_000;
+/** Reject oversized responses (memory / agent-context flooding guard). */
+const MAX_RESPONSE_BYTES = 5_000_000;
 
 async function fetchJson<T>(path: string): Promise<Envelope<T>> {
   const url = `${getApiBase()}${path}`;
@@ -96,6 +118,18 @@ async function fetchJson<T>(path: string): Promise<Envelope<T>> {
   if (!res.ok) {
     throw new OtfApiError(
       `OTF API responded with HTTP ${res.status} ${res.statusText}`,
+      url,
+      res.status,
+    );
+  }
+
+  // Size guard: reject a declared-oversized body before reading it into memory
+  // (a compromised/misconfigured upstream shouldn't be able to flood us or the
+  // agent's context). The request timeout bounds undeclared/chunked bodies.
+  const declaredLen = Number(res.headers.get("content-length"));
+  if (Number.isFinite(declaredLen) && declaredLen > MAX_RESPONSE_BYTES) {
+    throw new OtfApiError(
+      `OTF API response too large (${declaredLen} bytes > ${MAX_RESPONSE_BYTES})`,
       url,
       res.status,
     );

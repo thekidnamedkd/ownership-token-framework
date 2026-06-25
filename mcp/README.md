@@ -2,7 +2,7 @@
 
 A [Model Context Protocol](https://modelcontextprotocol.io) server that exposes
 the **Ownership Token Framework (OTF)** public read API as agent tools. Point
-Claude Desktop, Claude Code, or Cursor at it and query the framework data —
+Claude Desktop, Claude Code, Cursor, or Codex at it and query the framework data —
 which crypto protocols are genuinely tokenholder-owned, on evidence, against a
 fixed rubric — directly from your assistant.
 
@@ -36,7 +36,7 @@ For a local app dev server this is typically `http://localhost:3000`.
 
 ## Run locally
 
-Requires Node.js >= 18.
+Requires Node.js >= 20.
 
 ```bash
 cd mcp
@@ -55,23 +55,10 @@ go to stderr.
 
 After `npm run build`, use the **absolute path** to `dist/index.js`.
 
-### Claude Desktop
+### Claude
 
-Edit `claude_desktop_config.json`
-(macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "otf": {
-      "command": "node",
-      "args": ["/ABSOLUTE/PATH/TO/ownership-token-framework/mcp/dist/index.js"],
-      "env": {
-        "OTF_API_BASE": "https://ownership-token-framework.vercel.app"
-      }
-    }
-  }
-}
+```bash
+claude mcp add otf --env OTF_API_BASE=https://ownership-token-framework.vercel.app -- node /ABSOLUTE/PATH/TO/ownership-token-framework/mcp/dist/index.js
 ```
 
 ### Cursor
@@ -92,10 +79,15 @@ Edit `~/.cursor/mcp.json` (global) or `.cursor/mcp.json` (project):
 }
 ```
 
-### Claude Code
+### Codex CLI
 
-```bash
-claude mcp add otf --env OTF_API_BASE=https://ownership-token-framework.vercel.app -- node /ABSOLUTE/PATH/TO/ownership-token-framework/mcp/dist/index.js
+Add to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.otf]
+command = "node"
+args = ["/ABSOLUTE/PATH/TO/ownership-token-framework/mcp/dist/index.js"]
+env = { OTF_API_BASE = "https://ownership-token-framework.vercel.app" }
 ```
 
 ### Via npx (after publishing)
@@ -107,15 +99,39 @@ checkout by replacing the `command`/`args` with:
 { "command": "npx", "args": ["-y", "otf-mcp-server"] }
 ```
 
+## Security & threat model
+
+A read-only MCP over a public API still has a real attack surface; the hardening
+here is deliberate.
+
+- **Bounded blast radius.** Read-only — no tool writes, deletes, or mutates
+  anything, and the server holds no credentials or auth tokens (the OTF API is
+  public). The worst case through it is reading already-public data.
+- **Indirect prompt injection.** OTF content (criterion notes, evidence, FAQ,
+  and any future third-party submissions) is relayed verbatim into the agent's
+  context. Every tool result is prefixed with an explicit *untrusted-content
+  boundary* telling the model the payload is DATA, not instructions — so
+  imperative text inside a token's notes is reported, not executed. Evidence
+  URLs are labelled third-party and are not auto-fetched.
+- **Input / request safety.** Tool inputs are zod-validated; the token `id` is
+  constrained to `[a-z0-9-]` and URL-encoded before it reaches a path (no
+  traversal / injection). Requests are GET-only, time-bounded (15s), and reject
+  oversized responses (5 MB cap).
+- **SSRF.** `OTF_API_BASE` is the one trust anchor — operator-set, never derived
+  from agent/tool input — and is validated to be a real http(s) origin. Keep it
+  pointed at the canonical OTF API.
+- **Supply chain.** Dependencies (`@modelcontextprotocol/sdk`, `zod`) are
+  exact-pinned (no `^`/`latest`) to versions published 7+ days earlier, installed
+  from the committed `package-lock.json` (`npm ci`), with lifecycle scripts
+  disabled (`.npmrc` `ignore-scripts=true`). Minimal dependency surface; run
+  `npm audit` before publishing.
+
 ## Notes
 
 - **Standalone package.** This directory has its own `package.json` and
   `package-lock.json` and is installed with `npm` independently of the parent
   app's pnpm workspace. The root `pnpm-workspace.yaml` declares no `packages`,
   so `mcp/` is not part of the pnpm workspace and the app build is unaffected.
-- **Pinned dependencies.** `@modelcontextprotocol/sdk` and `zod` are
-  exact-pinned (no `^`/`latest`) to versions published over 7 days ago.
-- **Lifecycle scripts off** via `.npmrc` (`ignore-scripts=true`).
 - **Production domain TODO.** The default `OTF_API_BASE` is a placeholder; the
   current Vercel deployment did not serve `/api/v1/*` at verification time, so
   set `OTF_API_BASE` to a live origin.
