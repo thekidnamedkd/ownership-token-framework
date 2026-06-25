@@ -33,7 +33,7 @@ export const tokenAtomSchema = z.strictObject({
   }),
 })
 
-/** content/evaluations/<tokenId>/<metricId>/_metric.json — per-token metric editorial. */
+/** content/summaries/<tokenId>/<metricId>.json — per-token metric editorial. */
 export const metricEditorialAtomSchema = z.strictObject({
   summary: z.string(),
   tags: z.array(z.string()),
@@ -47,6 +47,27 @@ export const criterionEvaluationAtomSchema = z.strictObject({
   notes: z.string(),
   tags: z.array(z.string()).optional(),
   evidence: z.array(evidenceSchema).optional(),
+})
+
+/**
+ * A metric block inside the unified token doc: the editorial (summary/tags)
+ * plus its criteria keyed by criterion id (each value an evaluation atom).
+ */
+export const unifiedMetricSchema = z.strictObject({
+  summary: z.string(),
+  tags: z.array(z.string()),
+  criteria: z.record(z.string(), criterionEvaluationAtomSchema),
+})
+
+/**
+ * content/tokens/<id>.json — the unified token doc: identity (tokenAtomSchema
+ * fields) plus the full rubric nested by metric/criterion. This is what
+ * compose-data reads; the atom mirrors (evaluations/summaries) are a
+ * decomposition of it, kept in sync by the rebuild Action.
+ */
+export const unifiedTokenAtomSchema = z.strictObject({
+  ...tokenAtomSchema.shape,
+  metrics: z.record(z.string(), unifiedMetricSchema),
 })
 
 /** content/framework/<metricId>.json — canonical metric definition. */
@@ -109,6 +130,8 @@ export const testimonialsSchema = z.strictObject({
 })
 
 export type TokenAtom = z.infer<typeof tokenAtomSchema>
+export type UnifiedMetric = z.infer<typeof unifiedMetricSchema>
+export type UnifiedTokenAtom = z.infer<typeof unifiedTokenAtomSchema>
 export type MetricEditorialAtom = z.infer<typeof metricEditorialAtomSchema>
 export type CriterionEvaluationAtom = z.infer<
   typeof criterionEvaluationAtomSchema
