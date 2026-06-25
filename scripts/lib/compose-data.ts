@@ -43,6 +43,48 @@ const identityOf = (doc: any): any => {
   return identity
 }
 
+/**
+ * Complete, defaulted identity in the canonical key order. The editor saves a
+ * WIP token with empty fields omitted, so fill every missing field (→ "" / 0)
+ * here — the read-model stays complete and valid, and the readiness gate
+ * reports the gaps. A no-op for tokens that already have every field, so output
+ * is byte-identical for them.
+ */
+const fullIdentity = (doc: any): any => {
+  const out: any = { ...identityOf(doc) }
+  for (const k of [
+    "coingeckoId",
+    "address",
+    "icon",
+    "description",
+    "network",
+    "infoDescription",
+  ]) {
+    if (out[k] === undefined) out[k] = ""
+  }
+  if (out.lastUpdated === undefined) out.lastUpdated = 0
+  // Only rebuild a nested object when it's missing or incomplete, so complete
+  // tokens keep their exact sub-key order (output stays byte-identical).
+  const u = out.updatedBy
+  if (!u || u.name === undefined || u.avatar === undefined) {
+    out.updatedBy = { name: u?.name ?? "", avatar: u?.avatar ?? "" }
+  }
+  const l = out.links
+  if (
+    !l ||
+    l.website === undefined ||
+    l.twitter === undefined ||
+    l.scan === undefined
+  ) {
+    out.links = {
+      website: l?.website ?? "",
+      twitter: l?.twitter ?? "",
+      scan: l?.scan ?? "",
+    }
+  }
+  return out
+}
+
 const SCORED_STATUSES = new Set(["positive", "warning", "at_risk"])
 
 function getMetricScore(metric: any) {
@@ -139,7 +181,7 @@ export function composeAll(dir: string = contentDir) {
     const score = getTokenScore(tokenId, metrics)
 
     tokenDocs.push({
-      ...identityOf(doc),
+      ...fullIdentity(doc),
       positive: countBy("positive"),
       neutral: countBy("warning"),
       atRisk: countBy("at_risk"),

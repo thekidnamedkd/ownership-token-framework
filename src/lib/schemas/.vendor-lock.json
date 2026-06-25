@@ -1,12 +1,12 @@
 {
   "source": "aragon/otf-cms",
-  "source_commit": "ed6fa2c06d99a81c3c8d09a5863ce8ca366fd1e6",
+  "source_commit": "ad5c32f144ad542ddf8ea8aaccaa7586e5b7daf2",
   "files": {
-    "src/lib/schemas/atoms.ts": "fdb2489632bdf1f59a39585463c3f217bf2ba314de1da88c40cee1bc3aa35f8c",
-    "src/lib/schemas/common.ts": "f24a880ed2a539baaa51f7ad142e77be3f4c600ab8db063dcb9879689157d1f4",
-    "src/lib/schemas/index.ts": "10959b9f47efa935b9ff9f138c8d745353dc9ab75f5b43c43f16fa78a2ae72d2",
+    "src/lib/schemas/atoms.ts": "85b27f1e1c6a12d86da4dcbfec417e2695728c41c5716b6a28096ee0ceb22cf1",
+    "src/lib/schemas/common.ts": "bfe3e64c09b23e0231601277969f6a87ecf17e0752e2b01ca9bf343eb74dd90e",
+    "src/lib/schemas/index.ts": "28c98f19c477a398662a7317176e5f3983f46d8ee8c97a9a34d95c5144e0c8f3",
     "src/lib/schemas/read-models.ts": "9af495412eb22c6ac7a9ced07e976b9e960582f46e4dcf2c4f2dcc6f51868041",
     "src/lib/schemas/readiness.ts": "31597d72f8c66cc4734838a4556e78bb6871054cb244af5a43d4612bbdc29f4c",
-    "scripts/lib/compose-data.ts": "fc7d7c7c37e8d5081803f55a835246283aec5304c36cb231f7d320e412eeb78f"
+    "scripts/lib/compose-data.ts": "8fd91e88c9dc604d161c0809227f87fc478582aba102674a1f376dd783dd229b"
   }
 }
